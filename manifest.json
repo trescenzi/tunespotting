@@ -1,0 +1,13 @@
+{
+	"BundleType": "Application",
+	"BundleIdentifier": "tunespotting",
+	"AppIcon": {
+		"36x18": "tutorial.png"
+	},
+	"AppName": {
+		"en": "tunespotting"
+	},
+	"SupportedLanguages": [
+		"en"
+	]
+}
