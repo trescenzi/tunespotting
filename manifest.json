@@ -12,7 +12,6 @@
 	],
 	"RequiredPermissions": [
 		"http://ws.audioscrobbler.com",
-		"http://*.last.fm",
-		"http://last.fm"
+		"https://last.fm/api/auth"
 	]
 }
