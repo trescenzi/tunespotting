@@ -5,9 +5,14 @@
 		"36x18": "tutorial.png"
 	},
 	"AppName": {
-		"en": "tunespotting"
+		"en": "Tunespotting"
 	},
 	"SupportedLanguages": [
 		"en"
+	],
+	"RequiredPermissions": [
+		"http://ws.audioscrobbler.com",
+		"http://*.last.fm",
+		"http://last.fm"
 	]
 }

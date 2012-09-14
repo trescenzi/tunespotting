@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>My First App</title>
+  <script src="jquery.min.js"></script>
+  <script src="tunespotting.js"></script>
   <link rel="stylesheet" href="sp://import/css/adam.css">
   <link rel="stylesheet" href="tunespotting.css">
 </head>
 <body onload="sp = getSpotifyApi(1); tunespotting = sp.require('tunespotting'); tunespotting.init();" >
-<h1 id="header">Updating?</h1>
+<h1 id="header">Hello World</h1>
+<form name="lastfm" action="#" onSubmit="return setLastFMUserName();">
+  <input type="text" name="username" id="username">
+  <input type="submit" value="Submit">
+</form>
+<button onclick="lastFMAuth()"> test </button>
+<div id="test" ></div>
 </body>
 </html>
