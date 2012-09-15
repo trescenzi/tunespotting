@@ -6,7 +6,7 @@ var lastFMAPIRoot = "http://ws.audioscrobbler.com";
 var auth = sp.require('sp://import/scripts/api/auth');
 
 var lastFMKey='ce896902c7da0790956cec280a9c1df4';
-
+var lastFMSecret = 'f3038a88a51bfc660a7a527f055472c0';
 exports.init = init;
 
 function init() {
@@ -31,11 +31,28 @@ auth.showAuthenticationDialog('http://www.last.fm/api/auth/?api_key=ce896902c7da
 }
 
 function getLastFMSession(){
-  var apiCall = "/2.0/?method=auth.gettoken&";
+  var apiCall = lastFMAPIRoot + "/2.0/?method=auth.gettoken&";
+  apiCall += "api_key=" + lastFMKey +"&";
+  apiCall += "token=" + localStorage['lastFMToken'] + "&";
+  apiCall += "api_sig=" + lastFMSig(apiCall);
+  getRequest(apiCall);
+
 }
 
-function test(){
-  console.log(localStorage['lastFMToken']);
+function lastFMSig(url){
+  //order the paramaters being sent
+  var params = url.split("?")[1].split("&").sort();
+  
+  var sig = "";
+
+  //remove the '=' and smash the whole thing together
+  for(var i = 0; i<params.length; i += 1){
+    sig += params[i].replace("=" , "");
+  }
+
+  sig += lastFMSecret;
+
+  return $.md5(sig);
 }
 
 function getRequest(url){
@@ -50,7 +67,7 @@ function getRequest(url){
 function parseGetResponse(response){
   var splitUrl = response.split("?")[1].split("&");
   var variables = new Array();
-  for(var i=0; i<splitUrl.length; i++){
+  for(var i=0; i<splitUrl.length; i += 1){
     var broken = splitUrl[i].split("=");
     variables[broken[0]] = broken[1];
   }
