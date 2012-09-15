@@ -26,17 +26,37 @@ auth.showAuthenticationDialog('http://www.last.fm/api/auth/?api_key=ce896902c7da
         console.log("Authentication failed with error: " + error);
     },
 
-    onComplete : function() { }
+    onComplete : function() { 
+      getLastFMSession(); 
+    }
 });
 }
 
 function getLastFMSession(){
-  var apiCall = lastFMAPIRoot + "/2.0/?method=auth.gettoken&";
-  apiCall += "api_key=" + lastFMKey +"&";
-  apiCall += "token=" + localStorage['lastFMToken'] + "&";
-  apiCall += "api_sig=" + lastFMSig(apiCall);
-  getRequest(apiCall);
+  var apiCall = buildLastFMAPICall("auth.getSession", true);
+  var response = JSON.parse(getRequest(apiCall));
+  console.log(response);
+  localStorage['sessionKey'] = response['session']['key'];
+  console.log(localStorage['sessionKey']);
 
+}
+
+function buildLastFMAPICall(method, auth, more){
+  var apiCall = lastFMAPIRoot + "/2.0/?method=" + method + "&";
+      apiCall += "api_key=" + lastFMKey +"&";
+      
+      if(more)
+      for(var i = 0; i<more.length; i += 1){
+        apiCall += more[i] + "&";
+      }
+
+      if(auth){
+        apiCall +=  "token=" + localStorage['lastFMToken'] + "&";
+        apiCall += "api_sig=" + lastFMSig(apiCall) +"&";
+      }
+      //format is not part of the sig
+      apiCall += "format=json&"; 
+  return apiCall;
 }
 
 function lastFMSig(url){
