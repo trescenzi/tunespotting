@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>My First App</title>
-  <script src="jquery.min.js"></script>
-  <script src="jquery.md5.js"></script>
-  <script src="tunespotting.js"></script>
-  <script src="lastfm.js"></script>
-  <script src="apikeys.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.md5.js"></script>
+  <script src="js/lastfm.js"></script>
+  <script src="js/apikeys.js"></script>
+  <script src="js/tunespotting.js"></script>
   <link rel="stylesheet" href="sp://import/css/adam.css">
   <link rel="stylesheet" href="tunespotting.css">
 </head>
-<body onload="sp = getSpotifyApi(1); tunespotting = sp.require('tunespotting'); tunespotting.init();" >
+<body onload="init();">
   <div id="recommended" class="section"> 
     <h1 id="header">Hello World</h1>
     <button onClick="getRecommendedArtists()"> Get Recommended Artists </button>

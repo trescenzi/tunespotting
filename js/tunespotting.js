@@ -9,10 +9,14 @@ function init() {
   tabs();
   if(!localStorage['sessionKey'] || !localStorage['userName'])
     tabSelection('settings');
-
 }
 
 models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
+
+function displayArtists(){
+  var recommended = getRecommendedArtists();
+  
+}
 
 function tabs() {
     var args = models.application.arguments;

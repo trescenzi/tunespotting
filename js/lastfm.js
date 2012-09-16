@@ -5,8 +5,9 @@ var auth = sp.require('sp://import/scripts/api/auth');
 function getRecommendedArtists(){
   var apiCall = buildLastFMAPICall("user.getRecommendedArtists", true, 
     ["sk="+localStorage['sessionKey']]);
-  var response = JSON.parse(getRequest(apiCall));
-  console.log(response);
+    var response = JSON.parse(getRequest(apiCall));
+    var arists = response[arists];
+    console.log(arists);
 }
 
 function authFM(){

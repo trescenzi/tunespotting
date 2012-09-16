@@ -1,4 +1,4 @@
 tunespotting
 ============
 
-A Spotify app the generates a new playlist everyday. 
+A Spotify app build to help you get more acquainted with your Last.fm recommeded artists. 
