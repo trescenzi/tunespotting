@@ -6,6 +6,9 @@ var Artist = models.Artist;
 exports.init = init;
 
 function init() {
+  if(!localStorage['sessionKey'] || !localStorage['userName']){
+    
+  }
 }
 
 

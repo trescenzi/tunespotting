@@ -2,27 +2,24 @@ var sp = getSpotifyApi(1);
 var lastFMAPIRoot = "http://ws.audioscrobbler.com";
 var auth = sp.require('sp://import/scripts/api/auth');
 
-var lastFMKey='ce896902c7da0790956cec280a9c1df4';
-var lastFMSecret = 'f3038a88a51bfc660a7a527f055472c0';
-
 function authFM(){
-auth.showAuthenticationDialog('http://www.last.fm/api/auth/?api_key=ce896902c7da0790956cec280a9c1df4',
- 'http://176.58.109.98', {
+  auth.showAuthenticationDialog('http://www.last.fm/api/auth/?api_key=ce896902c7da0790956cec280a9c1df4',
+   'http://176.58.109.98', {
 
-    onSuccess : function(response) {
-        // Response will be something like 'sp://my_app_name?token=xxxxxxx'
-        var responses = parseGetResponse(response);
-        localStorage['lastFMToken'] = responses['token'];
-    },
+      onSuccess : function(response) {
+          // Response will be something like 'sp://my_app_name?token=xxxxxxx'
+          var responses = parseGetResponse(response);
+          localStorage['lastFMToken'] = responses['token'];
+      },
 
-    onFailure : function(error) {
-        console.log("Authentication failed with error: " + error);
-    },
+      onFailure : function(error) {
+          console.log("Authentication failed with error: " + error);
+      },
 
-    onComplete : function() { 
-      getLastFMSession(); 
-    }
-});
+      onComplete : function() { 
+        getLastFMSession(); 
+      }
+  });
 }
 
 function getLastFMSession(){

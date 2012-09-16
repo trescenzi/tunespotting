@@ -5,19 +5,24 @@
   <title>My First App</title>
   <script src="jquery.min.js"></script>
   <script src="jquery.md5.js"></script>
-  <script type="lastfm.js"></script>
   <script src="tunespotting.js"></script>
+  <script src="lastfm.js"></script>
+  <script src="apikeys.js"></script>
   <link rel="stylesheet" href="sp://import/css/adam.css">
   <link rel="stylesheet" href="tunespotting.css">
 </head>
 <body onload="sp = getSpotifyApi(1); tunespotting = sp.require('tunespotting'); tunespotting.init();" >
-<h1 id="header">Hello World</h1>
-<form name="lastfm" action="#" onSubmit="return setLastFMUserName();">
-  <input type="text" name="username" id="username">
-  <input type="submit" value="Submit">
-</form>
-<button onclick="authFM()"> test </button>
-<button onclick="getLastFMSession()"> test2 </button>
-<div id="test" ></div>
+  <div id="reccomended" class="section"> 
+    <h1 id="header">Hello World</h1>
+    <form name="lastfm" action="#" onSubmit="return setLastFMUserName();">
+      <input type="text" name="username" id="username">
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <div id="settings" class="section">
+    <button onclick="authFM()"> test </button>
+    <button onclick="getLastFMSession()"> test2 </button>
+    <div id="test" ></div>
+  </div>
 </body>
 </html>

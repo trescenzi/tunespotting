@@ -10,6 +10,20 @@
 	"SupportedLanguages": [
 		"en"
 	],
+	"DefaultTabs": [
+		{
+			"arguments": "recommended",
+			"title": {
+				"en": "Recommended Artists"
+			}
+		}, 
+		{
+			"arguments": "settings",
+			"title": {
+				"en": "Settings"
+			}
+		}
+	],
 	"RequiredPermissions": [
 		"http://ws.audioscrobbler.com",
 		"https://last.fm/api/auth"
