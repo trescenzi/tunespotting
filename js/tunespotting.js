@@ -16,14 +16,16 @@ function init() {
   models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
 }
 
-
 function displayArtists(){
   var recommended = getRecommendedArtists();
-  var list = "<table>";
+  $("#artists").html("");
   recommended.forEach(
     function(artist){
-
       var row = "<tr>";
+      var uri;
+      var sanatizedArtist = artist.name.replace(/ /g,"").replace("&","")
+      row += '<td><input type="checkbox" style="-webkit-appearance: checkbox !important;" name="'
+        +artist.name+'" value="'+artist.name+'" id="'+sanatizedArtist+'"></td>'
       row += "<td>" + artist.name + "</td>";
 
       search = new models.Search("artist:"+artist.name);
@@ -32,13 +34,17 @@ function displayArtists(){
         artist = search.artists['0'];
         artist_data = artist['data'];
         //toss in the link to the artist
-        row += '<td><a href="' + artist_data['uri'] +'">find</a></td>';
+        uri = artist_data['uri'];
+        row += '<td><a href="' + uri +'">find</a></td>';
+        
       });
       search.appendNext();
       $("#artists").append(row);
+
+      $("#"+sanatizedArtist).val(artist_data['uri']);
     });
-  localStorage['recommendedArtists'] = $("#artists").html();
-  console.log(localStorage['recommendedArtists']);
+    localStorage['recommendedArtists'] = $("#artists").html();
+    console.log(localStorage['recommendedArtists']);
 }
 
 function tabs(){

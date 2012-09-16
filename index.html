@@ -15,7 +15,12 @@
   <div id="recommended" class="section"> 
     <h1 id="header">Hello World</h1>
     <button onClick="displayArtists()"> Get Recommended Artists </button>
-    <div id="artists"></div>
+    <form>
+      <table>
+        <div id="artists"></div>
+        <input type="button" value="Generate Playlist" id="genplaylist" onclick="generatePlaylist()">
+      </table>
+    </form>
   </div>
   <div id="settings" class="section">
     <button onclick="authFM()"> Connect with Last.fm </button>
