@@ -18,6 +18,7 @@ function authFM(){
 
       onComplete : function() { 
         getLastFMSession(); 
+        tabSelection('recommended');
       }
   });
 }

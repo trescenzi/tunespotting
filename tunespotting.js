@@ -6,11 +6,24 @@ var Artist = models.Artist;
 exports.init = init;
 
 function init() {
-  if(!localStorage['sessionKey'] || !localStorage['userName']){
-    
-  }
+  tabs();
+  if(!localStorage['sessionKey'] || !localStorage['userName'])
+    tabSelection('settings');
+
 }
 
+models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
+
+function tabs() {
+    var args = models.application.arguments;
+    $(".section").hide();
+    $("#"+args[0]).show();
+    console.log(args);
+}
+
+function tabSelection(tab){
+    window.location = "spotify:app:tunespotting:"+tab;
+}
 
 function getRequest(url){
   var request = new XMLHttpRequest();

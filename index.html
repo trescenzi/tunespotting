@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="tunespotting.css">
 </head>
 <body onload="sp = getSpotifyApi(1); tunespotting = sp.require('tunespotting'); tunespotting.init();" >
-  <div id="reccomended" class="section"> 
+  <div id="recommended" class="section"> 
     <h1 id="header">Hello World</h1>
     <form name="lastfm" action="#" onSubmit="return setLastFMUserName();">
       <input type="text" name="username" id="username">
@@ -20,8 +20,7 @@
     </form>
   </div>
   <div id="settings" class="section">
-    <button onclick="authFM()"> test </button>
-    <button onclick="getLastFMSession()"> test2 </button>
+    <button onclick="authFM()"> Connect with Last.fm </button>
     <div id="test" ></div>
   </div>
 </body>
