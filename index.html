@@ -12,13 +12,13 @@
   <link rel="stylesheet" href="tunespotting.css">
 </head>
 <body onload="init();">
-  <div id="recommended" class="section"> 
+  <div id="recommended" class="section" method="get"> 
     <h1 id="header">Hello World</h1>
     <button onClick="displayArtists()"> Get Recommended Artists </button>
     <form>
       <table>
         <div id="artists"></div>
-        <input type="button" value="Generate Playlist" id="genplaylist" onclick="generatePlaylist()">
+        <input type="submit" value="Generate Playlist" id="genplaylist" onclick="generatePlaylist()">
       </table>
     </form>
   </div>

@@ -14,6 +14,11 @@ function init() {
   }
   tabs();
   models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
+
+  //if the form has been submitted
+  if(window.location.href.indexOf('?') != -1)
+    generatePlaylist();
+  
 }
 
 function displayArtists(){
@@ -47,6 +52,11 @@ function displayArtists(){
     console.log(localStorage['recommendedArtists']);
 }
 
+function generatePlaylist(){
+  console.log(window.location.href);
+  console.log(parseGetResponse(window.location.href));
+}
+
 function tabs(){
   // window.location = "spotify:app:tunespotting";
   var args = models.application.arguments;
@@ -73,7 +83,8 @@ function parseGetResponse(response){
   var variables = new Array();
   for(var i=0; i<splitUrl.length; i += 1){
     var broken = splitUrl[i].split("=");
-    variables[broken[0]] = broken[1];
+    
+    variables[broken[0].replace(/\+/g,'').toLowerCase()] = broken[1];
   }
   return variables;
 }
