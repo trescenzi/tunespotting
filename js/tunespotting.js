@@ -11,7 +11,6 @@ function init() {
     tabSelection('settings');
 }
 
-models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
 
 function displayArtists(){
   var recommended = getRecommendedArtists();
@@ -35,6 +34,7 @@ function displayArtists(){
     });
 }
 
+models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs());
 function tabs() {
     var args = models.application.arguments;
     $(".section").hide();
