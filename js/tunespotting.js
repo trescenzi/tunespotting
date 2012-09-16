@@ -1,14 +1,18 @@
 var sp = getSpotifyApi(1);
 var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
-var Artist = models.Artist;
+var artist = models.Artist;
 
 exports.init = init;
 
 function init() {
-  tabs();
-  if(!localStorage['sessionKey'] || !localStorage['userName'])
+  if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
+  }
+  tabs();
+  console.log("init");
+  models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
+
 }
 
 
@@ -34,12 +38,12 @@ function displayArtists(){
     });
 }
 
-models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs());
-function tabs() {
-    var args = models.application.arguments;
-    $(".section").hide();
-    $("#"+args[0]).show();
-    console.log(args);
+function tabs(){
+  // window.location = "spotify:app:tunespotting";
+  var args = models.application.arguments;
+  $(".section").hide();
+  $("#"+args[0]).show();
+  console.log(args);
 }
 
 function tabSelection(tab){
