@@ -53,8 +53,10 @@ function displayArtists(){
 }
 
 function generatePlaylist(){
-  console.log(window.location.href);
-  console.log(parseGetResponse(window.location.href));
+  var artists = parseGetResponse(window.location.href);
+  for(key in artists){
+    console.log(artists[key]);
+  }
 }
 
 function tabs(){
@@ -80,11 +82,13 @@ function getRequest(url){
 
 function parseGetResponse(response){
   var splitUrl = response.split("?")[1].split("&");
-  var variables = new Array();
+  var variables = {length:0};
   for(var i=0; i<splitUrl.length; i += 1){
     var broken = splitUrl[i].split("=");
-    
-    variables[broken[0].replace(/\+/g,'').toLowerCase()] = broken[1];
+    var key=broken[0].replace(/\+/g,'').toLowerCase();
+    var value = broken[1];
+    variables[key] = value;
+    variables["length"] += 1;
   }
   return variables;
 }
