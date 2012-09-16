@@ -9,10 +9,11 @@ function init() {
   if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
   }
+  else if(localStorage['recommendedArtists']){
+    $("#artists").html(localStorage['recommendedArtists']);
+  }
   tabs();
-  console.log("init");
   models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
-
 }
 
 
@@ -26,7 +27,7 @@ function displayArtists(){
       row += "<td>" + artist.name + "</td>";
 
       search = new models.Search("artist:"+artist.name);
-      search.observe(models.EVENT.CHANGE, function() {
+      search.observe(models.EVENT.CHANGE, function(){
         //get the artist from the search
         artist = search.artists['0'];
         artist_data = artist['data'];
@@ -36,6 +37,8 @@ function displayArtists(){
       search.appendNext();
       $("#artists").append(row);
     });
+  localStorage['recommendedArtists'] = $("#artists").html();
+  console.log(localStorage['recommendedArtists']);
 }
 
 function tabs(){
