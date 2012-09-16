@@ -14,10 +14,7 @@
 <body onload="sp = getSpotifyApi(1); tunespotting = sp.require('tunespotting'); tunespotting.init();" >
   <div id="recommended" class="section"> 
     <h1 id="header">Hello World</h1>
-    <form name="lastfm" action="#" onSubmit="return setLastFMUserName();">
-      <input type="text" name="username" id="username">
-      <input type="submit" value="Submit">
-    </form>
+    <button onClick="getRecommendedArtists()"> Get Recommended Artists </button>
   </div>
   <div id="settings" class="section">
     <button onclick="authFM()"> Connect with Last.fm </button>

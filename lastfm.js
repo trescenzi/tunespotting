@@ -2,6 +2,13 @@ var sp = getSpotifyApi(1);
 var lastFMAPIRoot = "http://ws.audioscrobbler.com";
 var auth = sp.require('sp://import/scripts/api/auth');
 
+function getRecommendedArtists(){
+  var apiCall = buildLastFMAPICall("user.getRecommendedArtists", true, 
+    ["sk="+localStorage['sessionKey']]);
+  var response = JSON.parse(getRequest(apiCall));
+  console.log(response);
+}
+
 function authFM(){
   auth.showAuthenticationDialog('http://www.last.fm/api/auth/?api_key=ce896902c7da0790956cec280a9c1df4',
    'http://176.58.109.98', {
