@@ -6,8 +6,8 @@ function getRecommendedArtists(){
   var apiCall = buildLastFMAPICall("user.getRecommendedArtists", true, 
     ["sk="+localStorage['sessionKey']]);
     var response = JSON.parse(getRequest(apiCall));
-    var arists = response[arists];
-    console.log(arists);
+    var artists = response.recommendations.artist;
+    return artists;
 }
 
 function authFM(){

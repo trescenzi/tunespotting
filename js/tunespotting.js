@@ -15,7 +15,24 @@ models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
 
 function displayArtists(){
   var recommended = getRecommendedArtists();
-  
+  var list = "<table>";
+  recommended.forEach(
+    function(artist){
+
+      var row = "<tr>";
+      row += "<td>" + artist.name + "</td>";
+
+      search = new models.Search("artist:"+artist.name);
+      search.observe(models.EVENT.CHANGE, function() {
+        //get the artist from the search
+        artist = search.artists['0'];
+        artist_data = artist['data'];
+        //toss in the link to the artist
+        row += '<td><a href="' + artist_data['uri'] +'">find</a></td>';
+      });
+      search.appendNext();
+      $("#artists").append(row);
+    });
 }
 
 function tabs() {
@@ -48,3 +65,55 @@ function parseGetResponse(response){
   return variables;
 }
 
+function search(type, query){
+  if(type == "artist"){
+    return new models.Search(query, {
+    'localResults'    : models.LOCALSEARCHRESULTS.IGNORE,
+    'searchArtists'   : true,
+    'searchAlbums'    : false,
+    'searchTracks'    : false,
+    'searchPlaylists' : false,
+    'pageSize'        : 10,
+    });
+  }
+  else if(type == "album"){
+    return new models.Search(query, {
+    'localResults'    : models.LOCALSEARCHRESULTS.IGNORE,
+    'searchArtists'   : false,
+    'searchAlbums'    : true,
+    'searchTracks'    : false,
+    'searchPlaylists' : false,
+    'pageSize'        : 10,
+    });
+  }
+  else if(type == "playlist"){
+    return new models.Search(query, {
+    'localResults'    : models.LOCALSEARCHRESULTS.IGNORE,
+    'searchArtists'   : false,
+    'searchAlbums'    : false,
+    'searchTracks'    : false,
+    'searchPlaylists' : true,
+    'pageSize'        : 10,
+    });
+  }
+  else if(type == "tracks"){
+    return new models.Search(query, {
+    'localResults'    : models.LOCALSEARCHRESULTS.IGNORE,
+    'searchArtists'   : false,
+    'searchAlbums'    : false,
+    'searchTracks'    : true,
+    'searchPlaylists' : false,
+    'pageSize'        : 10,
+    });
+  }
+  else{
+    return new models.Search(query, {
+    'localResults'    : models.LOCALSEARCHRESULTS.IGNORE,
+    'searchArtists'   : true,
+    'searchAlbums'    : true,
+    'searchTracks'    : true,
+    'searchPlaylists' : true,
+    'pageSize'        : 10,
+    });
+  }
+}
