@@ -11,6 +11,7 @@ function init() {
   }
   else if(localStorage['recommendedArtists']){
     $("#artists").html(localStorage['recommendedArtists']);
+    console.log(localStorage['recommendedArtists']);
   }
   tabs();
   models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
@@ -40,16 +41,15 @@ function displayArtists(){
         artist_data = artist['data'];
         //toss in the link to the artist
         uri = artist_data['uri'];
+        console.log("callback");
         row += '<td><a href="' + uri +'">find</a></td>';
         
       });
       search.appendNext();
       $("#artists").append(row);
-
       $("#"+sanatizedArtist).val(artist_data['uri']);
     });
     localStorage['recommendedArtists'] = $("#artists").html();
-    console.log(localStorage['recommendedArtists']);
 }
 
 function generatePlaylist(){
@@ -65,22 +65,21 @@ function getArtists(artists){
     Artist.fromURI(artists[key], function(artist){
       var name = artist.name.replace(/ /g,'').toLowerCase();
       artists[name] = artist;
-    })
+    });
   }
 }
 
 function fixURIs(artists){
   for(key in artists){
-    if(key != "length"){
       var uri = artists[key];
-      uri = uri.replace(/%3/g, "/");
-      artists[key] = uri;
-    }
+      var split = uri.split("%3");
+      var uriRoot = "spotify:artist:";
+      artists[key] = uriRoot + split[2];
+      console.log(artists[key]);
   }
 }
 
 function tabs(){
-  // window.location = "spotify:app:tunespotting";
   var args = models.application.arguments;
   $(".section").hide();
   $("#"+args[0]).show();
@@ -93,7 +92,6 @@ function tabSelection(tab){
 
 function getRequest(url){
   var request = new XMLHttpRequest();
-
   request.open("GET", url, false);
   console.log(url);
   request.send();
@@ -102,13 +100,13 @@ function getRequest(url){
 
 function parseGetResponse(response){
   var splitUrl = response.split("?")[1].split("&");
-  var variables = {length:0};
-  for(var i=0; i<splitUrl.length; i += 1){
-    var broken = splitUrl[i].split("=");
-    var key=broken[0].replace(/\+/g,'').toLowerCase();
-    var value = broken[1];
-    variables[key] = value;
-    variables["length"] += 1;
-  }
+  var variables = {};
+  splitUrl.forEach(
+    function(variable){
+      var broken = variable.split("=");
+      var key=broken[0];
+      var value = broken[1];
+      variables[key] = value;
+    });
   return variables;
 }
