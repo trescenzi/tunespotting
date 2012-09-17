@@ -1,7 +1,7 @@
 var sp = getSpotifyApi(1);
 var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
-var artist = models.Artist;
+var Artist = models.Artist;
 
 exports.init = init;
 
@@ -54,8 +54,28 @@ function displayArtists(){
 
 function generatePlaylist(){
   var artists = parseGetResponse(window.location.href);
+  fixURIs(artists);
+  getArtists(artists);
+  console.log(artists);
+}
+
+function getArtists(artists){
   for(key in artists){
-    console.log(artists[key]);
+    if(key != "length")
+    Artist.fromURI(artists[key], function(artist){
+      var name = artist.name.replace(/ /g,'').toLowerCase();
+      artists[name] = artist;
+    })
+  }
+}
+
+function fixURIs(artists){
+  for(key in artists){
+    if(key != "length"){
+      var uri = artists[key];
+      uri = uri.replace(/%3/g, "/");
+      artists[key] = uri;
+    }
   }
 }
 
