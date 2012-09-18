@@ -3,11 +3,10 @@ var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
 var Artist = models.Artist;
 
-
 exports.init = init;
 
 function init() {
-  console.log(localStorage['spotifyURIs']);
+  console.log(localStorage['artistURIs']);
   if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
   }
@@ -19,8 +18,8 @@ function init() {
   
 }
 
-function displayArtists(){
-  localStorage['spotifyURIs'] = {};
+function getArtists(){
+  var artistURIs = {};
   var recommended = getRecommendedArtists();
   $("#artists").html("");
   recommended.forEach(function(artist){
@@ -28,7 +27,7 @@ function displayArtists(){
       var uri;
       var name = artist.name.replace(/ /g,"").replace("&","")
       row += '<td><input type="checkbox" style="-webkit-appearance: checkbox !important;" name="'
-        +artist.name+'" value="'+artist.name+'" id="'+name+'"></td>'
+        +name+'" value="'+artist.name+'" id="'+name+'"></td>'
       row += "<td>" + artist.name + "</td>";
 
       search = new models.Search("artist:"+artist.name);
@@ -39,14 +38,14 @@ function displayArtists(){
         //toss in the link to the artist
         uri = artist_data['uri'];
         row += '<td><a href="' + uri +'">find</a></td>';
-        var uris = localStorage['spotifyURIs'];
+        var uris = artistURIs;
         uris[name] = uri;
-        console.log(localStorage['spotifyURIs']);
       });
       search.appendNext();
       $("#artists").append(row);
     });
     localStorage['recommendedArtists'] = $("#artists").html();
+    localStorage['artistURIs'] = JSON.stringify(artistURIs);
 }
 
 function tabs(){
