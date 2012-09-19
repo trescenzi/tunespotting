@@ -2,20 +2,26 @@ var sp = getSpotifyApi(1);
 var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
 var Artist = models.Artist;
-
+var Artists = {};
 exports.init = init;
 
 function init() {
-  console.log(localStorage['artistURIs']);
   if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
   }
   else if(localStorage['recommendedArtists']){
     $("#artists").html(localStorage['recommendedArtists']);
+    Artists = urisToArtists(JSON.parse(localStorage['artistURIs']));
   }
   tabs();
   models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
   
+}
+
+function displayArtists(){
+  getArtists();
+  Artists = urisToArtists(JSON.parse(localStorage['artistURIs']));
+  buildArtistHTML();
 }
 
 function getArtists(){
@@ -47,6 +53,26 @@ function getArtists(){
     localStorage['recommendedArtists'] = $("#artists").html();
     localStorage['artistURIs'] = JSON.stringify(artistURIs);
 }
+
+buildArtistHTML(){
+  $("#artists").html("");
+  for(artist in Artists){
+      var row = "<tr>";
+      var uri;
+      var name = artist.name;
+      row += "<td>" + name + "</td>";
+  }
+}
+
+function urisToArtists(uris){
+  var artists = {};
+  for(artist in uris){
+    var spotArt = Artist.fromURI(uris[artist], function(artist) {
+      artists[artist.name] = artist;
+    });
+  }
+  return artists;
+ }
 
 function tabs(){
   var args = models.application.arguments;
