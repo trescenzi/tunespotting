@@ -6,6 +6,7 @@ var Artists = {};
 exports.init = init;
 
 function init() {
+  //localStorage.clear();
   if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
   }
@@ -27,41 +28,33 @@ function displayArtists(){
 function getArtists(){
   var artistURIs = {};
   var recommended = getRecommendedArtists();
-  $("#artists").html("");
   recommended.forEach(function(artist){
-      var row = "<tr>";
-      var uri;
-      var name = artist.name.replace(/ /g,"").replace("&","")
-      row += '<td><input type="checkbox" style="-webkit-appearance: checkbox !important;" name="'
-        +name+'" value="'+artist.name+'" id="'+name+'"></td>'
-      row += "<td>" + artist.name + "</td>";
-
       search = new models.Search("artist:"+artist.name);
       search.observe(models.EVENT.CHANGE, function(){
         //get the artist from the search
         artist = search.artists['0'];
         var artist_data = artist['data'];
         //toss in the link to the artist
-        uri = artist_data['uri'];
-        row += '<td><a href="' + uri +'">find</a></td>';
-        var uris = artistURIs;
-        uris[name] = uri;
+        uri = artist_data.uri;
+        artistURIs[artist_data.name] = uri;
       });
       search.appendNext();
-      $("#artists").append(row);
     });
-    localStorage['recommendedArtists'] = $("#artists").html();
     localStorage['artistURIs'] = JSON.stringify(artistURIs);
 }
 
-buildArtistHTML(){
+function buildArtistHTML(){
   $("#artists").html("");
   for(artist in Artists){
-      var row = "<tr>";
-      var uri;
-      var name = artist.name;
-      row += "<td>" + name + "</td>";
+    console.log(artist);
+    var row = "<tr>";
+    var uri = Artists[artist].data.uri;
+    var name = Artists[artist].data.name;
+    row += "<td>" + name + "</td>";
+    row += '<td><a href="' + uri +'">find</a></td>';
+    $("#artists").append(row);
   }
+  localStorage['recommendedArtists'] = $("#artists").html();
 }
 
 function urisToArtists(uris){
