@@ -3,10 +3,13 @@ var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
 var Artist = models.Artist;
 var Artists = {};
+var views = sp.require('sp://import/scripts/api/views');
+var ui = sp.require("sp://import/scripts/ui");
 exports.init = init;
 
 function init() {
   //localStorage.clear();
+
   if(!localStorage['sessionKey'] || !localStorage['userName']){
     tabSelection('settings');
   }
@@ -44,15 +47,22 @@ function getArtists(){
 }
 
 function buildArtistHTML(){
-  $("#artists").html("");
+  $("#column0").html("");
+  $("#column1").html("");
+  $("#column2").html("");
+  var i = 0;
   for(artist in Artists){
-    console.log(artist);
-    var row = "<tr>";
     var uri = Artists[artist].data.uri;
     var name = Artists[artist].data.name;
-    row += "<td>" + name + "</td>";
-    row += '<td><a href="' + uri +'">find</a></td>';
-    $("#artists").append(row);
+    var sanatizedName = name.replace(/ /g, '');
+    var image = imageDrawing(Artists[artist]);
+    if(image.style.background != ""){
+      console.log(image.style.background-image);
+      $("#column" + i%3).append(image);
+    }
+
+    //Greg I hope you're happy because I know I'm not
+    i += 1;
   }
   localStorage['recommendedArtists'] = $("#artists").html();
 }
@@ -65,23 +75,28 @@ function urisToArtists(uris){
     });
   }
   return artists;
- }
+}
+
+function imageDrawing(artist){
+  var image = new ui.SPImage(artist.data.portrait);
+  console.log(image.node.style.background);
+  //image.node.style.background = 'no-repeat';
+  return image.node;
+}
 
 function tabs(){
   var args = models.application.arguments;
   $(".section").hide();
   $("#"+args[0]).show();
-  console.log(args);
 }
 
 function tabSelection(tab){
-    window.location = "spotify:app:tunespotting:"+tab;
+  window.location = "spotify:app:tunespotting:"+tab;
 }
 
 function getRequest(url){
   var request = new XMLHttpRequest();
   request.open("GET", url, false);
-  console.log(url);
   request.send();
   return request.responseText;
 }

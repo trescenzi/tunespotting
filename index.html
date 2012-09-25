@@ -15,13 +15,18 @@
   <div id="recommended" class="section" method="get"> 
     <h1 id="header">Hello World</h1>
     <button onClick="displayArtists()"> Get Recommended Artists </button>
-    <form>
-      <table>
-        <div id="artists"></div>
-        <input type="submit" value="Generate Playlist" id="genplaylist" onclick="generatePlaylist()">
-      </table>
-    </form>
+    <div id="mosaic">
+      <div id="column0" class="col">
+      </div>
+      <div id="column1" class="col">
+      </div>
+      <div id="column2" class="col">
+      </div>
+    </div>
   </div>
+
+  <!-- settings tab -->
+
   <div id="settings" class="section">
     <button onclick="authFM()"> Connect with Last.fm </button>
     <div id="test" ></div>
